@@ -42,6 +42,11 @@ with open('response.json') as json_file:
 
     nn.delete()
 
+    fig = plt.figure()
+    plt.xlabel('Year')
+    plt.ylabel('Average SAT')
+    fig.suptitle('Average SAT for UMich')
+
     plt.scatter(xs, ys, c='green')
 
     plt.plot(pred_xs, lr_pred_ys, c='blue')
@@ -50,4 +55,5 @@ with open('response.json') as json_file:
     plt.plot(pred_xs, nn_pred_ys, c='red')
     plt.scatter(pred_x, nn_pred_y, c='orange')
 
+    fig.savefig('graph.png')
     plt.show()
