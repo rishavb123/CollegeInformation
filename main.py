@@ -11,6 +11,12 @@ def unpack(data):
         ys.append(point[1])
     return xs, ys
 
+def old_key():
+    with open('key.txt') as key_file:
+        return key_file.read()
+
+train = input('Would you like to train a new model? (Y / N): ').lower()[0] == 'y'
+
 with open('response.json') as json_file:
     full_data = json.load(json_file)['results'][0]
     
@@ -31,16 +37,19 @@ with open('response.json') as json_file:
 
     lr_pred_ys = [lr.predict(x) for x in pred_xs]
 
-    nn = NeuralNetwork(1, 2, 1)
-    epoch = 1000000
-    nn.train([[(x - 2001) / 17] for x in xs], [[y / 1600] for y in ys], epoch)
+    nn = NeuralNetwork.load(NeuralNetwork(), 'key.txt')
+    if train:
+        if bool(old_key()):
+            nn.delete()
+        nn = NeuralNetwork(1, 2, 1)
+        NeuralNetwork.save(nn, 'key.txt')
+        epoch = 1000000
+        nn.train([[(x - 2001) / 17] for x in xs], [[y / 1600] for y in ys], epoch)
 
     nn_pred_y = nn.predict([(pred_x - 2001) / 17])[0] * 1600
     print("Neural Network: In " + str(pred_x) + " the Average SAT Score of University of Michigan - Ann Arbor will be near " + str(nn_pred_y))
 
     nn_pred_ys = [nn.predict([(x - 2001) / 17])[0] * 1600 for x in pred_xs]
-
-    nn.delete()
 
     fig = plt.figure()
     plt.xlabel('Year')
