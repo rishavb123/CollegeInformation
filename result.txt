@@ -1,0 +1,2 @@
+Linear Regression: In 2020 the Average SAT Score of University of Michigan - Ann Arbor will be near 1424.0490196078426
+Neural Network: In 2020 the Average SAT Score of University of Michigan - Ann Arbor will be near 1465.2604038094803
